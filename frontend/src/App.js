@@ -12,7 +12,7 @@ export default function App() {
   * Just a state variable we use to store our user's public wallet.
   */
   const [currentAccount, setCurrentAccount] = React.useState("");
-  const contractAddress = process.env.JOKESTER_CONTRACT;
+  const contractAddress = process.env.REACT_APP_JOKESTER_CONTRACT;
   const contractABI = abi.abi;
   var jokeForm = React.useRef()
   var ratejoke =  React.useRef()
@@ -327,7 +327,6 @@ export default function App() {
                     </div>
                     <div class="card-footer-item">
                       <FacebookShareButton 
-                          url={process.env.JOKESTER_FRONTEND_URL}
                           quote={joke["joke"]}
                           hashtag={"#jokesterpool"}>
                           <FacebookIcon size={36} />
