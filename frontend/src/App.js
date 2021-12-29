@@ -5,6 +5,7 @@ import abi from './utils/JokesterPool.json';
 import Rating from "react-rating";
 import SyncLoader from "react-spinners/SyncLoader";
 import {FacebookShareButton, FacebookIcon} from "react-share";
+import AddJoke from "./AddJoke";
 
 
 export default function App() {
@@ -14,7 +15,6 @@ export default function App() {
   const [currentAccount, setCurrentAccount] = React.useState("");
   const contractAddress = process.env.REACT_APP_JOKESTER_CONTRACT;
   const contractABI = abi.abi;
-  var jokeForm = React.useRef()
   var ratejoke =  React.useRef()
   var jokeIdli = React.useRef(null)
   var [jokes, setJokes] = React.useState([]);
@@ -142,33 +142,6 @@ export default function App() {
     }
   }
 
-  const addJoke = async () => {
-    try {
-      const { ethereum } = window;
-
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const jokesterContract = new ethers.Contract(contractAddress, contractABI, signer);
-        let form = jokeForm.current
-
-                /*
-        * Execute the actual wave from your smart contract
-        */
-        const addJokeTxn = await jokesterContract.addJoke(form['joke'].value);
-        console.log("Mining...", addJokeTxn.hash);
-
-        await addJokeTxn.wait();
-        console.log("Mined -- ", addJokeTxn.hash);
-
-      } else {
-        console.log("Ethereum object doesn't exist!");
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const rateJoke = async (id, rating) => {
     try {
       const { ethereum } = window;
@@ -267,30 +240,31 @@ export default function App() {
                   <span></span>
                 </span>
               </div>
-              <div id="navbarMenuHeroA" class="navbar-menu">
-                <div class="navbar-end">
-                  <a class="navbar-item is-active">
-                    Home
-                  </a>
-                  <a class="navbar-item">
-                    Examples
-                  </a>
-                  <a class="navbar-item">
-                    Documentation
-                  </a>
-                  <span class="navbar-item">
-                    <a class="button is-primary is-inverted">
-                      <span class="icon">
-                        <i class="fab fa-github"></i>
-                      </span>
-                      <span>Download</span>
-                    </a>
-                  </span>
-                </div>
-              </div>
+              {/*<div id="navbarMenuHeroA" class="navbar-menu">*/}
+              {/*  <div class="navbar-end">*/}
+              {/*    <a class="navbar-item is-active">*/}
+              {/*      Home*/}
+              {/*    </a>*/}
+              {/*    <a class="navbar-item">*/}
+              {/*      Examples*/}
+              {/*    </a>*/}
+              {/*    <a class="navbar-item">*/}
+              {/*      Documentation*/}
+              {/*    </a>*/}
+              {/*    <span class="navbar-item">*/}
+              {/*      <a class="button is-primary is-inverted">*/}
+              {/*        <span class="icon">*/}
+              {/*          <i class="fab fa-github"></i>*/}
+              {/*        </span>*/}
+              {/*        <span>Download</span>*/}
+              {/*      </a>*/}
+              {/*    </span>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
             </div>
           </nav>
         </div>
+
 
         <div class="hero-body">
           <div class="container has-text-centered">
@@ -302,6 +276,8 @@ export default function App() {
               Connect Wallet
             </button>
             )}
+
+            <AddJoke/>
 
             <div class="columns is-multiline">
                 {jokes.map(joke=> 
